@@ -1,0 +1,135 @@
+header {
+  .header_desktop {
+    display: flex;
+    padding: 15px 5%;
+    align-items: center;
+    border-bottom: 1px solid var(--gray-100);
+
+    .header__menu {
+      cursor: pointer;
+
+      svg {
+        width: 35px;
+        height: 35px;
+      }
+    }
+
+    .header__logo {
+      img {
+        width: 100%;
+        max-width: 250px;
+        height: auto;
+      }
+    }
+
+    .header__input_area {
+      width: 50%;
+      margin-left: 10%;
+      position: relative;
+
+      input {
+        width: 100%;
+        padding: 5px 10px;
+        border: 1px solid var(--gray-200);
+        background-color: var(--gray-100);
+        border-radius: 8px;
+        color: var(--gray-200);
+        font-size: 18px;
+      }
+
+      svg {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--gray-400);
+      }
+    }
+
+    .header__cart {
+      margin-left: 10px;
+      cursor: pointer;
+
+      svg {
+        width: 30px;
+        height: 30px;
+        color: var(--gray-300);
+
+        &:hover {
+          color: var(--gray-400);
+        }
+      }
+    }
+  }
+
+  .header_mobile {
+    display: none;
+    padding: 15px 5%;
+    align-items: center;
+
+    .header_mobile_top {
+      border-bottom: 1px solid var(--gray-100);
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+
+      .header_left, .header_right {
+        display: flex;
+        align-items: center;
+      }
+
+      .header__menu {
+        svg {
+          width: 35px;
+          height: 30px;
+        }
+      }
+
+      .header__logo {
+        width: 70%;
+
+        img {
+          max-width: 130px;
+          height: auto;
+        }
+      }
+
+      .header__search, .header__cart {
+        svg {
+          width: 28px;
+          height: 28px;
+          color: var(--gray-400);
+        }
+      }
+    }
+
+    .header_mobile_bottom {
+      width: 100%;
+      margin: 20px 0;
+      input {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid var(--gray-200);
+        background-color: var(--gray-100);
+        border-radius: 8px;
+        color: var(--gray-400);
+        font-size: 16px;
+      }
+    }
+  }
+
+  @media only screen and (max-width: 760px){
+    .header_desktop {
+      display: none;
+    }
+
+    .header_mobile {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+    
+  }
+}

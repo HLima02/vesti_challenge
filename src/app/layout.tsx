@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "./globals.scss";
+
+import Header from "./components/Header";
 
 export const metadata: Metadata = {
   title: "Vesti Challenge",
@@ -14,6 +16,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body>
+        <Header />
         {children}
       </body>
     </html>
