@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import { useProductContext } from '@/contexts/ProductContext'
 import { BsCart3 } from "react-icons/bs";
+import { toast } from 'react-toastify';
 import Link from 'next/link'
 
 import './style.scss'
@@ -30,6 +31,7 @@ export default function ProductDetail() {
     return <div></div>
   }
 
+  //Função para adicionar e remover quantidade do pedido
   function handlerQuantity(value:string){
     let auxValue = quantity
     switch(value){
@@ -45,6 +47,33 @@ export default function ProductDetail() {
         setQuantity(auxValue)
         break
     }
+  }
+
+  function handleCartAdd(){
+    if(selectedColor == null) {
+      toast.warning('Selecione uma cor')
+      return
+    }
+
+    if(selectedSize == null){
+      toast.warning('Selecione um tamanho')
+      return
+    }
+
+    if (quantity == 0){
+      toast.warning('Escolha a quantidade desejada')
+      return
+    }
+
+    toast.success('Pedido adicionado ao carrinho!')
+    setSelectedSize(null)
+    setSelectedColor(null)
+    setQuantity(0)
+
+    console.log(`Pedido: ${productFetched.name}
+      cor: ${selectedColor}
+      Tamanho: ${selectedSize}
+      Quantidade: ${quantity}`)
   }
 
   return (
@@ -86,7 +115,7 @@ export default function ProductDetail() {
 
       <div className='detail_btn_area'>
         <Link className='btn btn_keep_buying' href="/"><BsCart3 />Continuar Comprando</Link>
-        <button className='btn btn_add_cart'>Adicionar ao Carrinho</button>
+        <button onClick={handleCartAdd} className='btn btn_add_cart'>Adicionar ao Carrinho</button>
       </div>
     </div>
   )

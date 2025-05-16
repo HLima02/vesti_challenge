@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { ToastContainer } from 'react-toastify';
 import "./globals.scss";
 
 import ProductProvider from "@/contexts/ProductContext";
@@ -22,6 +23,7 @@ export default function RootLayout({
         <ProductProvider>
           <Header />
           {children}
+          <ToastContainer />
         </ProductProvider>
       </body>
     </html>
