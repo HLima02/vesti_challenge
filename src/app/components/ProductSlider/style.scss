@@ -1,0 +1,14 @@
+.slider_container {
+  width: 35%;
+
+  .slick-dots {
+    display: flex !important;
+    justify-content: center;
+
+    li {
+      width: 60px;
+    }
+  }
+
+ 
+}

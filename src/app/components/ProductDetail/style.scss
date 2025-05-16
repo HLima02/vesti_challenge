@@ -1,0 +1,119 @@
+.datail_container {
+  padding: 30px 0;
+
+  h3 {
+    font-size: 28px;
+  }
+
+  small {
+    font-size: 12px;
+    color: var(--gray-300);
+  }
+
+  .detail_description {
+    font-size: 18px;
+    margin-top: 20px;
+  }
+
+  .detail_composition {
+    font-size: 14px;
+    color: var(--gray-300);
+  }
+
+  .detail_colors_area {
+    margin: 30px 0;
+    p {
+      font-weight: bold;
+    }
+
+    .detail_color_section {
+      display: flex;
+      gap: 20px;
+      margin-top: 10px;
+      .detail_color_box {
+        width: 35px;
+        height: 35px;
+        background-color: black;
+        border-radius: 50%;
+        cursor: pointer;
+        border: none;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+    }    
+  }
+
+  .detail_size_area {
+    margin-top: 10px;
+
+    p {
+      font-weight: bold;
+    }
+
+    .detail_sizes_section {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+
+      .detail_sizes_option {
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        border: 1px solid var(--gray-400);
+        border-radius: 8px;
+        background-color: var(--gray-100);
+        color: var(--gray-400);
+
+        &:hover {
+          background-color: var(--gray-400);
+          color: var(--white);
+        }
+      }
+    }
+  }
+
+  .detail_btn_area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 50px 0;
+    width: 100%;
+
+    .btn{
+      padding: 10px 15px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 18px;
+      margin-bottom: 10px;
+      width: 100%;
+    }
+
+    .btn_keep_buying {
+      border: 2px solid var(--gray-400);
+      color: var(--gray-400);
+
+      svg {
+        margin: 0 5px;
+      }
+
+      &:hover {
+        background-color: var(--gray-400);
+        color: var(--white);
+      }
+    }
+
+    .btn_add_cart {
+      border: none;
+      background-color: var(--green-100);
+      color: var(--white);
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--green-200);
+      }
+    }
+  }
+}

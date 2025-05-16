@@ -35,4 +35,6 @@ export type Product = {
 
 export interface ProductContextType {
   products: Product[]
+  productFetched: any
+  setProductFetched: any
 }

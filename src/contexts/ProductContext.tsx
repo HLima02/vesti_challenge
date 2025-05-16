@@ -4,11 +4,14 @@ import { catalogFetch } from '@/services/api'
 import { Product, ProductContextType } from '@/types/types'
 
 const ProductContext = createContext<ProductContextType>({
-  products: []
+  products: [],
+  productFetched: null,
+  setProductFetched: null
 })
 
 export default function ProductProvider({children}:{children:React.ReactNode}) {
   const [products, setProducts] = useState([])
+  const [productFetched, setProductFetched] = useState()
 
   useEffect(() => {
     const loadApi = async () => {
@@ -24,7 +27,7 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
   }, [])
 
   return (
-    <ProductContext.Provider value={{products}}>
+    <ProductContext.Provider value={{products, productFetched, setProductFetched}}>
       {children}
     </ProductContext.Provider>
   )
