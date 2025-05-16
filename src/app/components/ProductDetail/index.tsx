@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { useProductContext } from '@/contexts/ProductContext'
 import { BsCart3 } from "react-icons/bs";
 import Link from 'next/link'
@@ -22,12 +22,30 @@ type colorsProps = {
 
 export default function ProductDetail() {
   const { productFetched } = useProductContext()
+  const [selectedSize, setSelectedSize] = useState<string | null>(null)
+  const [selectedColor, setSelectedColor] = useState<string | null>(null)
+  const [quantity, setQuantity] = useState<number>(0)
 
   if(!productFetched) {
     return <div></div>
   }
 
-  console.log(productFetched.colors)
+  function handlerQuantity(value:string){
+    let auxValue = quantity
+    switch(value){
+      case 'minus': 
+        if(quantity > 0){
+          auxValue = auxValue - 1
+          setQuantity(auxValue)
+        }
+        break
+      
+      case 'plus': 
+        auxValue = auxValue + 1
+        setQuantity(auxValue)
+        break
+    }
+  }
 
   return (
     <div className='datail_container'>
@@ -39,7 +57,10 @@ export default function ProductDetail() {
         <p>Cores: </p>
         <div className='detail_color_section'>
           {productFetched.colors.map((item:colorsProps) => (
-            <button className='detail_color_box' style={{backgroundColor: `${item.code}`}}></button>
+            <button key={item.id} 
+            className={`detail_color_box ${selectedColor === item.code ? 'selected' : ''}`} 
+            style={{backgroundColor: `${item.code}`}}
+            onClick={() => setSelectedColor(item.code)}></button>
           ))}
         </div>
       </div>
@@ -47,10 +68,22 @@ export default function ProductDetail() {
         <p>Tamanhos: </p>
         <div className='detail_sizes_section'>
           {productFetched.sizes.map((item:sizeProps) => (
-            <button key={item.id} className='detail_sizes_option'>{item.slug}</button>
+            <button key={item.id} 
+            className={`detail_sizes_option ${selectedSize === item.slug ? 'selected' : ''}`}
+            onClick={() => setSelectedSize(item.slug)}>{item.slug}</button>
           ))}
         </div>
       </div>
+
+      <div className='quantity_size_area'>
+        <p>Quantidade: </p>
+        <div className='quantity_sizes_section'>
+          <button onClick={() => handlerQuantity('minus')}>-</button>
+          <span>{quantity}</span>
+          <button onClick={() => handlerQuantity('plus')}>+</button>
+        </div>
+      </div>
+
       <div className='detail_btn_area'>
         <Link className='btn btn_keep_buying' href="/"><BsCart3 />Continuar Comprando</Link>
         <button className='btn btn_add_cart'>Adicionar ao Carrinho</button>

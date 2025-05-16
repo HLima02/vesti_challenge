@@ -42,6 +42,10 @@
           transform: scale(1.1);
         }
       }
+
+      .selected {
+        border: 3px solid var(--black);
+      }
     }    
   }
 
@@ -70,6 +74,37 @@
           background-color: var(--gray-400);
           color: var(--white);
         }
+      }
+      .selected {
+        background-color: var(--gray-400);
+        color: var(--white);
+      }
+    }
+  }
+
+  .quantity_size_area {
+    margin-top: 10px;
+
+    p {
+      font-weight: bold;
+    }
+
+    .quantity_sizes_section {
+      margin-top: 10px;
+
+      button {
+        width: 30px;
+        height: 30px;
+        margin: 0 10px;
+        border: 2px solid var(--gray-400);
+        color: var(--gray-400);
+        border-radius: 8px;
+        font-size: 20px;
+        cursor: pointer;
+      }
+
+      span {
+        font-size: 24px;
       }
     }
   }
