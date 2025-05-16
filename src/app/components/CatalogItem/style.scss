@@ -1,0 +1,27 @@
+.catalog_item {
+  width: 100%;
+  max-width: 230px;
+  margin: 10px 2%;
+  text-align: center;
+  cursor: pointer;
+
+  .catalog_image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: 280px;
+    overflow: hidden;
+
+    img {
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  .catalog_name_product {
+    font-size: 20px;
+    margin: 20px 0;
+  }
+  
+}
