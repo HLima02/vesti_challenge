@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
-  --background: #000;
-  --foreground: #fff;
+  --black: #000;
+  --white: #fff;
 
   --gray-100: #eeeeee;
   --gray-200: #dbdbdb;
@@ -35,4 +35,8 @@ body {
 
 img {
   width: 100%;
+}
+
+a {
+  text-decoration: none;
 }

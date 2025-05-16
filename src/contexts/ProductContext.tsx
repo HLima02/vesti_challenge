@@ -13,7 +13,7 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
   useEffect(() => {
     const loadApi = async () => {
       try {
-        const catalog = await catalogFetch('https://apivesti.vesti.mobi/appmarca/v2/catalogue/company/vesti')
+        const catalog = await catalogFetch('https://apivesti.vesti.mobi/appmarca/v2/catalogue/company/vesti/?page=1&perpage=60&with_colors=true')
         setProducts(catalog.products)
       } catch (error){
         console.log('Error: ', error)

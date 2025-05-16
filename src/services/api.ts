@@ -5,3 +5,9 @@ export const catalogFetch = async (endpoint:string) => {
   const data = await req.json()
   return data
 }
+
+export const ProductFetch = async (endpoint:string) => {
+  const req = await fetch(endpoint)
+  const data = await req.json()
+  return data
+}
