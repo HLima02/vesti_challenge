@@ -1,9 +1,20 @@
 header {
   .header_desktop {
     display: flex;
-    padding: 15px 5%;
+    padding: 15px 0;
+    justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid var(--gray-100);
+
+    .header_left, .header_right {
+      display: flex;
+      align-items: center;
+    }
+
+    .header_right {
+      width: 70%;
+      justify-content: flex-end;
+    }
 
     .header__menu {
       cursor: pointer;
@@ -23,7 +34,7 @@ header {
     }
 
     .header__input_area {
-      width: 50%;
+      width: 80%;
       margin-left: 10%;
       position: relative;
 

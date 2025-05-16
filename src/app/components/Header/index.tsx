@@ -15,17 +15,22 @@ export default function Header() {
     <header className='width_container'>
        {/* Header na versão desktop, maior 760px */}
       <div className='header_desktop'>
-        <span className='header__menu'><IoMenu  color='#000' /></span>
-        <Link className='header__logo' href="/">
-          <Image src={logo_desktop} alt='Logo'  />
-        </Link>
-        <div className='header__input_area'>
-          <input type='text' placeholder='Buscar produtos' />
-          <IoSearch size={20}/>
+        <div className='header_left'>
+          <span className='header__menu'><IoMenu  color='#000' /></span>
+          <Link className='header__logo' href="/">
+            <Image src={logo_desktop} alt='Logo'  />
+          </Link>
         </div>
-        <span className='header__cart'>
-          <BsCart3 size={20}/>
-        </span>
+
+        <div className='header_right'>
+          <div className='header__input_area'>
+            <input type='text' placeholder='Buscar produtos' />
+            <IoSearch size={20}/>
+          </div>
+          <span className='header__cart'>
+            <BsCart3 size={20}/>
+          </span>
+        </div>
       </div>
 
       {/* Header na versão mobile, menor 760px */}
