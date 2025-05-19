@@ -16,7 +16,9 @@ const ProductContext = createContext<ProductContextType>({
   setFilteredList: null,
   user: null,
   setUser: null,
-  signUp: null
+  signUp: null,
+  signIn: null,
+  logout: null
 })
 
 export default function ProductProvider({children}:{children:React.ReactNode}) {
@@ -29,6 +31,12 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
   const router = useRouter()
 
   useEffect(() => {
+    const storageUser = localStorage.getItem('@vestiUser')
+    if(storageUser){
+      setUser(JSON.parse(storageUser))
+      router.push('/')
+    }
+
     const loadApi = async () => {
       try {
         const catalog = await catalogFetch('https://apivesti.vesti.mobi/appmarca/v2/catalogue/company/vesti/?page=1&perpage=60&with_colors=true')
@@ -55,6 +63,26 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
 
   }, [filteredList, products])
 
+  //Login
+  async function signIn(email:string, password:string){
+    await signInWithEmailAndPassword(auth, email, password)
+    .then(async (value) => {
+      let uid = value.user.uid
+      const docRef = doc(db, "users", uid)
+      const docSnap = await getDoc(docRef)
+
+      let data = {
+        uid,
+        //name: docSnap.data().name,
+        email: value.user.email,
+      }
+      setUser(data)
+      storageUser(data)
+      toast.success("Bem-vindo(a) de volta!")
+      router.push('/')
+    })
+  }
+
   //Cadastro
   async function signUp(name: string, email:string, password:string){
     await createUserWithEmailAndPassword(auth, email, password)
@@ -71,10 +99,22 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
           email: value.user.email,
         }
         setUser(data)
+        storageUser(data)
         router.push('/')
         toast.success("Bem vindo ao sistema")
       })
     })
+  }
+
+  //LogOut
+  async function logout(){
+    await signOut(auth)
+    localStorage.removeItem('@vestiUser')
+    setUser(null)
+  }
+
+  function storageUser(data:USerProsps){
+    localStorage.setItem('@vestiUser', JSON.stringify(data))
   }
 
   return (
@@ -86,7 +126,9 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
     setFilteredList,
     user,
     setUser,
-    signUp
+    signUp,
+    signIn,
+    logout
     }}>
       {children}
     </ProductContext.Provider>

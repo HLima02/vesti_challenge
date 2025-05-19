@@ -36,7 +36,7 @@ export type Product = {
 };
 
 export type USerProsps = {
-  id: number
+  uid: number
   name: string
   email: string
 }
@@ -48,9 +48,11 @@ export interface ProductContextType {
   setProductFetched: any
   filteredList: string | undefined
   setFilteredList: any
-  user: USerProsps | null ,
+  user: USerProsps | null,
   setUser: any,
-  signUp:any
+  signUp:any,
+  signIn: any,
+  logout: any
 }
 
 export interface BannerItem {
