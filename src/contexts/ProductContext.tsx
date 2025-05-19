@@ -12,10 +12,10 @@ const ProductContext = createContext<ProductContextType>({
 })
 
 export default function ProductProvider({children}:{children:React.ReactNode}) {
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState<Product[]>([])
   const [productFetched, setProductFetched] = useState()
   const [filteredList, setFilteredList] = useState<string>()
-  const [auxProductList, setProductList] = useState([])
+  const [auxProductList, setProductList] = useState<Product[]>([])
 
   useEffect(() => {
     const loadApi = async () => {

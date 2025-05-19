@@ -3,6 +3,7 @@ import React, { useContext, useState } from 'react'
 import { useProductContext } from '@/contexts/ProductContext'
 import { Product } from '@/types/types'
 import CatalogItem from './components/CatalogItem'
+import BannerSlider from './components/BannerSlider'
 
 import './page.scss'
 
@@ -19,6 +20,7 @@ export default function Home() {
 
   return (
     <div className='width_container catalog_container'>
+      <BannerSlider />
       {products.map(item => (
         <CatalogItem key={item.id} productItem={item} />
       ))}

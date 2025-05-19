@@ -1,3 +1,5 @@
+import { StaticImageData  } from "next/image"
+
 export type Product = {
   id: string;
   name: string;
@@ -39,4 +41,9 @@ export interface ProductContextType {
   setProductFetched: any
   filteredList: string | undefined
   setFilteredList: any
+}
+
+export interface BannerItem {
+  id: number
+  url: string | StaticImageData
 }
