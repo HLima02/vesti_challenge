@@ -14,8 +14,6 @@ export default function BannerSlider() {
     slidesToScroll: 1
   };
 
-  console.log(BannerData)
-
   return (
     <div className='banner_container'>
       <Image src={banner} alt={`Imagem `} />      

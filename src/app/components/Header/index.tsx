@@ -9,7 +9,7 @@ import { useProductContext } from '@/contexts/ProductContext'
 import logo_desktop from '@/assets/logo_desktop.png'
 import logo_mobile from '@/assets/logo_mobile.jpg'
 
-import { IoMenu } from "react-icons/io5";
+import { CgProfile } from "react-icons/cg";
 import { BsCart3 } from "react-icons/bs";
 import { IoSearch } from "react-icons/io5";
 
@@ -23,7 +23,6 @@ export default function Header() {
       {/* Header na versão desktop, maior 760px */}
       <div className='header_desktop'>
         <div className='header_left'>
-          <span className='header__menu'><IoMenu  color='#000' /></span>
           <Link className='header__logo' href="/">
             <Image src={logo_desktop} alt='Logo'  />
           </Link>
@@ -35,9 +34,14 @@ export default function Header() {
             <IoSearch size={20}/>
           </div>
           {(!!user) ? (
-            <span className='header__cart'>
-              <BsCart3 size={20}/>
-            </span>
+            <div>
+              <span className='header__cart'>
+                <BsCart3 size={20}/>
+              </span>
+              <span className='header__cart'>
+                <CgProfile onClick={() => router.push('/profile')}  size={20}/>
+              </span>
+            </div>
           ) : (
             <span className='btn_entrar'>
               <button onClick={() => router.push('/signin')}>Entrar</button>
@@ -50,7 +54,7 @@ export default function Header() {
       <div className='header_mobile'>
         <div className='header_mobile_top'>
           <div className='header_left'>
-            <span className='header__menu'><IoMenu  color='#000' /></span>
+            <span className='header__menu'></span>
             <Link className='header__logo' href="/">
               <Image src={logo_mobile} alt='Logo'  />
             </Link>
@@ -59,9 +63,20 @@ export default function Header() {
             <span className='header__search' onClick={() => setIsInputSearchOpen(!isInputSearchOpen)} >
               <IoSearch size={20}/>
             </span>
-            <span className='header__cart'>
-              <BsCart3 size={20}/>
-            </span>
+            {(!!user) ? (
+              <div>
+                <span className='header__cart'>
+                  <BsCart3 size={20}/>
+                </span>
+                <span onClick={() => router.push('/profile')} className='header__cart'>
+                  <CgProfile  size={20}/>
+                </span>
+              </div>
+            ) : (
+              <span className='btn_entrar'>
+                <button onClick={() => router.push('/signin')}>Entrar</button>
+              </span>
+            )}
           </div>
         </div>
         {isInputSearchOpen && 

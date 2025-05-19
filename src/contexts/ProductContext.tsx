@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation'
 const ProductContext = createContext<ProductContextType>({
   products: [],
   productFetched: null,
-  setProductFetched: null,
+  setProductFetched: () => {},
   filteredList: undefined,
   setFilteredList: null,
   user: null,

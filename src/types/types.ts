@@ -45,7 +45,7 @@ export type USerProsps = {
 export interface ProductContextType {
   products: Product[]
   productFetched: any
-  setProductFetched: any
+  setProductFetched: React.Dispatch<React.SetStateAction<any>>
   filteredList: string | undefined
   setFilteredList: any
   user: USerProsps | null,
