@@ -5,7 +5,7 @@ import Link from 'next/link'
 import './style.scss'
 
 export default function CatalogItem({productItem}:{productItem:Product}) {
-  console.log(productItem)
+  // console.log(productItem)
   return (
     <Link href={`/product/${productItem.slug}`} className='catalog_item'>
       <div className='catalog_image'>

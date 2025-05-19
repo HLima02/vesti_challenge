@@ -1,7 +1,9 @@
-import React from 'react'
+'use client'
+import React, { useState } from 'react'
 import Link from 'next/link';
 import Image from 'next/image';
 import './style.scss'
+import { useProductContext } from '@/contexts/ProductContext'
 
 import logo_desktop from '@/assets/logo_desktop.png'
 import logo_mobile from '@/assets/logo_mobile.jpg'
@@ -11,6 +13,8 @@ import { BsCart3 } from "react-icons/bs";
 import { IoSearch } from "react-icons/io5";
 
 export default function Header() {
+  const { products, filteredList, setFilteredList } = useProductContext()
+
   return (
     <header className='width_container'>
        {/* Header na versão desktop, maior 760px */}
@@ -24,7 +28,7 @@ export default function Header() {
 
         <div className='header_right'>
           <div className='header__input_area'>
-            <input type='text' placeholder='Buscar produtos' />
+            <input value={filteredList} onChange={(e) => setFilteredList(e.target.value)} type='text' placeholder='Buscar produtos' />
             <IoSearch size={20}/>
           </div>
           <span className='header__cart'>
@@ -52,7 +56,7 @@ export default function Header() {
           </div>
         </div>
         <div className='header_mobile_bottom'>
-          <input type='text' placeholder='Buscar produtos' />
+          <input value={filteredList} onChange={(e) => setFilteredList(e.target.value)} type='text' placeholder='Buscar produtos' />
         </div>
       </div>
     </header>

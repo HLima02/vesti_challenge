@@ -37,4 +37,6 @@ export interface ProductContextType {
   products: Product[]
   productFetched: any
   setProductFetched: any
+  filteredList: string | undefined
+  setFilteredList: any
 }
