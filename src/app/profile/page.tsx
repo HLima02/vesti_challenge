@@ -8,8 +8,7 @@ import ProtectedRoute from '../components/ProtectedRouter'
 import './style.scss'
 
 export default function Profile() {
-  const { user } = useProductContext()
-  console.log(user)
+  const { user, logout } = useProductContext()
 
   return (
     <ProtectedRoute>
@@ -17,6 +16,7 @@ export default function Profile() {
         <div className='profile_icon'>
           <Image src={profile} alt='ícone profile'/>
           <h2>{user?.email}</h2>
+          <button className='logout' onClick={logout}>Sair</button>
         </div>
       </div>
     </ProtectedRoute>

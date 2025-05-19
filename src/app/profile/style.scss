@@ -2,6 +2,8 @@
   display: flex;
   justify-self: center;
   margin: 30px 0;
+  width: 100%;
+
   .profile_icon {
     width: 100%;
     display: flex;
@@ -11,6 +13,26 @@
     img {
       max-width: 250px;
       max-height: 250px;
+    }
+
+    h2 {
+      font-size: 28px;
+      margin: 10px 0;
+    }
+
+    .logout {
+      color: var(--white);
+      background-color: var(--black-2);
+      font-size: 18px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: none;
+      width: 250px;
+      cursor: pointer;
+
+      &:hover {
+        box-shadow: 2px 2px 4px var(--black-2);
+      }
     }
   }
 

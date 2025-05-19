@@ -111,6 +111,7 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
     await signOut(auth)
     localStorage.removeItem('@vestiUser')
     setUser(null)
+    router.push('/')
   }
 
   function storageUser(data:USerProsps){
