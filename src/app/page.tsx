@@ -8,7 +8,8 @@ import BannerSlider from './components/BannerSlider'
 import './page.scss'
 
 export default function Home() {
-  const { products } = useProductContext()
+  const { products, user } = useProductContext()
+  console.log("user", user)
 
   if(products.length == 0){
     return (

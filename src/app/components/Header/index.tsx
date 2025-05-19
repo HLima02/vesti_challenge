@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import Link from 'next/link';
+import { useRouter } from 'next/navigation'
 import Image from 'next/image';
 import './style.scss'
 import { useProductContext } from '@/contexts/ProductContext'
@@ -13,12 +14,13 @@ import { BsCart3 } from "react-icons/bs";
 import { IoSearch } from "react-icons/io5";
 
 export default function Header() {
-  const { products, filteredList, setFilteredList } = useProductContext()
+  const { user, products, filteredList, setFilteredList } = useProductContext()
   const [isInputSearchOpen, setIsInputSearchOpen] = useState<boolean>(false)
+  const router = useRouter()
 
   return (
     <header className='width_container'>
-       {/* Header na versão desktop, maior 760px */}
+      {/* Header na versão desktop, maior 760px */}
       <div className='header_desktop'>
         <div className='header_left'>
           <span className='header__menu'><IoMenu  color='#000' /></span>
@@ -32,9 +34,15 @@ export default function Header() {
             <input value={filteredList} onChange={(e) => setFilteredList(e.target.value)} type='text' placeholder='Buscar produtos' />
             <IoSearch size={20}/>
           </div>
-          <span className='header__cart'>
-            <BsCart3 size={20}/>
-          </span>
+          {(!!user) ? (
+            <span className='header__cart'>
+              <BsCart3 size={20}/>
+            </span>
+          ) : (
+            <span className='btn_entrar'>
+              <button onClick={() => router.push('/signin')}>Entrar</button>
+            </span>
+          )}
         </div>
       </div>
 

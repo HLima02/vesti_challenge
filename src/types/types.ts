@@ -35,12 +35,22 @@ export type Product = {
   colors: string[] | null;
 };
 
+export type USerProsps = {
+  id: number
+  name: string
+  email: string
+}
+
+
 export interface ProductContextType {
   products: Product[]
   productFetched: any
   setProductFetched: any
   filteredList: string | undefined
   setFilteredList: any
+  user: USerProsps | null ,
+  setUser: any,
+  signUp:any
 }
 
 export interface BannerItem {

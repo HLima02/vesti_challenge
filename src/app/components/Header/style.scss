@@ -71,6 +71,20 @@ header {
         }
       }
     }
+
+    .btn_entrar {
+      margin-left: 10px;
+
+      button {
+        padding: 8px 12px;
+        background-color: var(--black-2);
+        color: var(--white);
+        border-radius: 5px;
+        font-size: 15px;
+        border: none;
+        cursor: pointer;
+      }
+    }
   }
 
   .header_mobile {
