@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import Link from 'next/link'
 
 import './style.scss'
+import { CartProps, OrderDetails } from '@/types/types';
 
 type sizeProps = {
   id: string
@@ -23,12 +24,10 @@ type colorsProps = {
 
 export default function ProductDetail() {
   const { productFetched } = useProductContext()
-  const [selectedSize, setSelectedSize] = useState<string | null>(null)
-  const [selectedColor, setSelectedColor] = useState<string | null>(null)
+  const [selectedSize, setSelectedSize] = useState<string>("")
+  const [selectedColor, setSelectedColor] = useState<string>("")
   const [quantity, setQuantity] = useState<number>(0)
-  const { user } = useProductContext()
-
-  console.log(!!user)
+  const { user, cart, setCart } = useProductContext()
 
   if(!productFetched) {
     return <div></div>
@@ -69,14 +68,57 @@ export default function ProductDetail() {
     }
 
     toast.success('Pedido adicionado ao carrinho!')
-    setSelectedSize(null)
-    setSelectedColor(null)
+    setSelectedSize("")
+    setSelectedColor("")
     setQuantity(0)
 
-    console.log(`Pedido: ${productFetched.name}
-      cor: ${selectedColor}
-      Tamanho: ${selectedSize}
-      Quantidade: ${quantity}`)
+    checkCart()
+  }
+
+  function checkCart(){
+    const {code, name, media} = productFetched
+    const url = media?.[0].thumb.url || ''
+
+    const color = selectedSize
+    const sizes = [selectedColor]
+    const newOrder:OrderDetails = { color, sizes, quantity };
+
+    setCart((prevCart:any) => {
+      console.log("prevCart", prevCart)
+      const existingProduct = prevCart.find((item:any) => item.code === code);
+      
+      //Verifica se o produto já existe no carrinho
+      if(!existingProduct) {
+        const newCartItem = {code, name, url, items: [newOrder]}
+        return [...prevCart, newCartItem]
+      } 
+      
+      //Produto já existente no carrinho
+      return prevCart.map((item:any) => {
+        if(item.code !== code) return item
+
+        const existingOrderIndex = item.items.findIndex((order:any) => {
+          return (
+            order.color === newOrder.color && 
+            JSON.stringify(order.sizes.sort()) === JSON.stringify(newOrder.sizes.sort())
+          )
+        })
+
+        if(existingOrderIndex !== -1) {
+          const updatedItems = [...item.items]
+          updatedItems[existingOrderIndex].quantity += newOrder.quantity
+
+          return {...item, items: updatedItems}
+        } else {
+          return {
+            ...item,
+            items: [...item.items, newOrder]
+          }
+
+        }
+      })
+    })
+    
   }
 
   return (

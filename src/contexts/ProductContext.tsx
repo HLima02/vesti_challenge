@@ -1,7 +1,7 @@
 'use client'
 import React, {createContext, useContext, useEffect, useState} from 'react'
 import { catalogFetch } from '@/services/api'
-import { Product, ProductContextType, USerProsps } from '@/types/types'
+import { Product, ProductContextType, USerProsps, CartProps } from '@/types/types'
 import { auth, db } from '@/services/firebase'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { doc, getDoc, setDoc} from 'firebase/firestore'
@@ -31,7 +31,7 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
   const [productFetched, setProductFetched] = useState()
   const [filteredList, setFilteredList] = useState<string>()
   const [auxProductList, setProductList] = useState<Product[]>([])
-  const [cart, setCart] = useState<Product[]>([])
+  const [cart, setCart] = useState<CartProps[]>([])
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false)
 
   const router = useRouter()

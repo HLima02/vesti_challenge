@@ -41,6 +41,18 @@ export type USerProsps = {
   email: string
 }
 
+export type OrderDetails = {
+  color: string,
+  sizes: string[]
+  quantity: number
+}
+
+export type CartProps = {
+  code: string,
+  name: string,
+  url: string,
+  items: OrderDetails[]
+}
 
 export interface ProductContextType {
   products: Product[]
