@@ -9,7 +9,6 @@ import './style.scss'
 export default function Cart() {
   const { cart, isCartOpen, setIsCartOpen } = useProductContext()
 
-  console.log("carrinho: ", cart)
   return (
     <div className='cart_container' style={isCartOpen ? {right: 0, display: 'block'} : { right: -350, display: 'none'}}>
       <div className='close_cart' onClick={() => setIsCartOpen(false)} >

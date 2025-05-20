@@ -13,8 +13,6 @@ export default function Address() {
   const [error, setError] = useState<string>('')
   const { address, setAddress } =  useProductContext()
 
-  console.log("Endereço: ", address)
-
   const handleAddress = async () => {
     const cleanCEP = cep.replace(/\D/g, '')
 
@@ -33,7 +31,6 @@ export default function Address() {
       } else {
         setError('');
         const checkAddress = address.findIndex(item => item.cep == data.cep)
-        console.log(checkAddress)
         if(checkAddress == 0 ){
           toast.warning("Esse CEP já esta cadastrado!")
           return
