@@ -1,9 +1,14 @@
 import React from 'react'
-import Image from 'next/image'
 import { CartProps } from '@/types/types'
+import { useProductContext } from '@/contexts/ProductContext'
 
 export default function CartItem({ item }:{item:CartProps}) {
-  console.log(item.items[0].color)
+  const { cart, setCart } = useProductContext()
+
+  function handleDeleteItem(){
+    const deleteItem = cart.filter(i => i.code !== item.code)
+    setCart(deleteItem)
+  }
   return (
     <li>
       <div><img src={item.url} /></div>
@@ -14,8 +19,9 @@ export default function CartItem({ item }:{item:CartProps}) {
           {item.items.map(item => (
             <span className='size'>{item.sizes[0]}</span>
           ))}
+          <span className='quantity'>Quantidade: {item.items[0].quantity}</span>
         </div>
-        <span className='quantity'>Quantidade: {item.items[0].quantity}</span>
+        <button onClick={handleDeleteItem} className='info_delete'>Excluir</button>
       </div>
     </li>
   )

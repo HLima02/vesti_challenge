@@ -70,6 +70,10 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
 
   }, [filteredList, products])
 
+  useEffect(() => {
+    localStorage.setItem('@vestiCart', JSON.stringify(cart))
+  }, [cart])
+
   //Login
   async function signIn(email:string, password:string){
     await signInWithEmailAndPassword(auth, email, password)

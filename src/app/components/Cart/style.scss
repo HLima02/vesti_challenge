@@ -83,11 +83,22 @@
             padding: 5px;
             border-radius: 8px;
           }
+
+          .quantity {
+            color: var(--gray-300);
+            font-size: 14px;
+          }
         }
 
-        .quantity {
+        .info_delete {
+          border: none;
+          background-color: transparent;
           color: var(--gray-300);
-          font-size: 14px;
+          cursor: pointer;
+
+          &:hover {
+            color: var(--gray-400);
+          }
         }
       }
     }
