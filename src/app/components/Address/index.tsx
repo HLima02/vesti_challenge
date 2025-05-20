@@ -50,7 +50,8 @@ export default function Address() {
   }
 
   const handleDelete = (item:AddressType) => {
-    console.log(item)
+    const deleteAddress = address.filter(i => i.cep !== item.cep)
+    setAddress(deleteAddress)
   }
   
   return (
