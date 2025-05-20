@@ -38,11 +38,12 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
 
   useEffect(() => {
     const storageUser = localStorage.getItem('@vestiUser')
-    if(storageUser){
-      setUser(JSON.parse(storageUser))
-      router.push('/')
-    }
+    const storageCart = localStorage.getItem('@vestiCart')
 
+    if(storageUser) setUser(JSON.parse(storageUser))
+    if(storageCart) setCart(JSON.parse(storageCart))
+    
+    //Carrega a API de produtos
     const loadApi = async () => {
       try {
         const catalog = await catalogFetch('https://apivesti.vesti.mobi/appmarca/v2/catalogue/company/vesti/?page=1&perpage=60&with_colors=true')

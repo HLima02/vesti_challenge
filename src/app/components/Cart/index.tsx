@@ -7,7 +7,8 @@ import './style.scss'
 
 export default function Cart() {
   const { cart, isCartOpen, setIsCartOpen } = useProductContext()
-  console.log(cart)
+
+  console.log("carrinho: ", cart)
   return (
     <div className='cart_container' style={isCartOpen ? {right: 0, display: 'block'} : { right: -350, display: 'none'}}>
       <div className='close_cart' onClick={() => setIsCartOpen(false)} >
@@ -18,7 +19,14 @@ export default function Cart() {
           <p >Seu carrinho ainda esta vazio!!</p>
         </div>
       ) : (
-        <CartItem />
+        <div className='full_cart'>
+          <h3>Lista de produtos</h3>
+          <ul>
+            {cart.map(item => (
+              <CartItem key={item.code} item={item} />
+            ))}
+          </ul>
+        </div>
       )}
     </div>
   )

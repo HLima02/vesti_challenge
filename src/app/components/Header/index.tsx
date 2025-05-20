@@ -34,7 +34,7 @@ export default function Header() {
             <IoSearch size={20}/>
           </div>
           {(!!user) ? (
-            <div>
+            <div style={{width: 100}}>
               <span className='header__cart' onClick={() => setIsCartOpen(true)}>
                 <BsCart3 size={20}/>
               </span>

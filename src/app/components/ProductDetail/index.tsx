@@ -52,12 +52,12 @@ export default function ProductDetail() {
   }
 
   function handleCartAdd(){
-    if(selectedColor == null) {
+    if(!selectedColor) {
       toast.warning('Selecione uma cor')
       return
     }
 
-    if(selectedSize == null){
+    if(!selectedSize){
       toast.warning('Selecione um tamanho')
       return
     }
@@ -79,46 +79,46 @@ export default function ProductDetail() {
     const {code, name, media} = productFetched
     const url = media?.[0].thumb.url || ''
 
-    const color = selectedSize
-    const sizes = [selectedColor]
+    const color =  selectedColor
+    const sizes = [selectedSize]
     const newOrder:OrderDetails = { color, sizes, quantity };
 
-    setCart((prevCart:any) => {
-      console.log("prevCart", prevCart)
+    setCart((prevCart:CartProps[]) => {
       const existingProduct = prevCart.find((item:any) => item.code === code);
       
       //Verifica se o produto já existe no carrinho
       if(!existingProduct) {
         const newCartItem = {code, name, url, items: [newOrder]}
-        return [...prevCart, newCartItem]
+        const updatedCart = [...prevCart, newCartItem]
+        storageCart(updatedCart)
+        return updatedCart
       } 
       
       //Produto já existente no carrinho
-      return prevCart.map((item:any) => {
-        if(item.code !== code) return item
+      const updatedItems = [...existingProduct.items]
+      
+      const existingOrderIndex = updatedItems.findIndex(order => 
+        order.color === newOrder.color 
+        //JSON.stringify(order.sizes.sort()) === JSON.stringify(newOrder.sizes.sort())
+      )
+      console.log('teste', existingOrderIndex)
+      if(existingOrderIndex !== -1){
+        updatedItems[existingOrderIndex].quantity += newOrder.quantity
+      } else {
+        updatedItems.push(newOrder)
+      }
 
-        const existingOrderIndex = item.items.findIndex((order:any) => {
-          return (
-            order.color === newOrder.color && 
-            JSON.stringify(order.sizes.sort()) === JSON.stringify(newOrder.sizes.sort())
-          )
-        })
+      const updatedCart = prevCart.map(item => 
+        item.code === code ? {...item, items:updatedItems} : item
+      )
 
-        if(existingOrderIndex !== -1) {
-          const updatedItems = [...item.items]
-          updatedItems[existingOrderIndex].quantity += newOrder.quantity
-
-          return {...item, items: updatedItems}
-        } else {
-          return {
-            ...item,
-            items: [...item.items, newOrder]
-          }
-
-        }
-      })
+      storageCart(updatedCart)
+      return updatedCart
     })
-    
+  }
+
+  function storageCart(data:CartProps[]) {
+    localStorage.setItem('@vestiCart', JSON.stringify(data))
   }
 
   return (
