@@ -6,6 +6,7 @@ import "./globals.scss";
 
 import ProductProvider from "@/contexts/ProductContext";
 import Header from "./components/Header";
+import Cart from "./components/Cart";
 
 export const metadata: Metadata = {
   title: "Vesti Challenge",
@@ -22,6 +23,7 @@ export default function RootLayout({
       <body>
         <ProductProvider>
           <Header />
+          <Cart />
           {children}
           <ToastContainer />
         </ProductProvider>

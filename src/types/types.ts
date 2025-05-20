@@ -52,7 +52,11 @@ export interface ProductContextType {
   setUser: any,
   signUp:any,
   signIn: any,
-  logout: any
+  logout: any,
+  cart: Product[],
+  setCart: React.Dispatch<React.SetStateAction<any>>,
+  isCartOpen: boolean,
+  setIsCartOpen:  React.Dispatch<React.SetStateAction<any>>
 }
 
 export interface BannerItem {

@@ -26,6 +26,9 @@ export default function ProductDetail() {
   const [selectedSize, setSelectedSize] = useState<string | null>(null)
   const [selectedColor, setSelectedColor] = useState<string | null>(null)
   const [quantity, setQuantity] = useState<number>(0)
+  const { user } = useProductContext()
+
+  console.log(!!user)
 
   if(!productFetched) {
     return <div></div>
@@ -114,8 +117,16 @@ export default function ProductDetail() {
       </div>
 
       <div className='detail_btn_area'>
-        <Link className='btn btn_keep_buying' href="/"><BsCart3 />Continuar Comprando</Link>
-        <button onClick={handleCartAdd} className='btn btn_add_cart'>Adicionar ao Carrinho</button>
+        {!!user ? (
+          <>
+            <Link className='btn btn_keep_buying' href="/"><BsCart3 />Continuar Comprando</Link>
+            <button onClick={handleCartAdd} className='btn btn_add_cart'>Adicionar ao Carrinho</button>
+          </>
+        ) : (
+          <Link className='btn btn_keep_buying' href="/signin"><BsCart3 />Fazer Login para comprar</Link>
+        )}
+       
+        
       </div>
     </div>
   )

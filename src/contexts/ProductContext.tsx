@@ -18,7 +18,11 @@ const ProductContext = createContext<ProductContextType>({
   setUser: null,
   signUp: null,
   signIn: null,
-  logout: null
+  logout: null,
+  cart: [],
+  setCart: () => {},
+  isCartOpen: false,
+  setIsCartOpen: () => {}
 })
 
 export default function ProductProvider({children}:{children:React.ReactNode}) {
@@ -27,6 +31,8 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
   const [productFetched, setProductFetched] = useState()
   const [filteredList, setFilteredList] = useState<string>()
   const [auxProductList, setProductList] = useState<Product[]>([])
+  const [cart, setCart] = useState<Product[]>([])
+  const [isCartOpen, setIsCartOpen] = useState<boolean>(false)
 
   const router = useRouter()
 
@@ -129,7 +135,11 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
     setUser,
     signUp,
     signIn,
-    logout
+    logout,
+    cart,
+    setCart,
+    isCartOpen,
+    setIsCartOpen
     }}>
       {children}
     </ProductContext.Provider>

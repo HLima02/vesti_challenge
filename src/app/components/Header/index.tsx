@@ -14,7 +14,7 @@ import { BsCart3 } from "react-icons/bs";
 import { IoSearch } from "react-icons/io5";
 
 export default function Header() {
-  const { user, products, filteredList, setFilteredList } = useProductContext()
+  const { user, products, filteredList, setFilteredList, setIsCartOpen } = useProductContext()
   const [isInputSearchOpen, setIsInputSearchOpen] = useState<boolean>(false)
   const router = useRouter()
 
@@ -35,7 +35,7 @@ export default function Header() {
           </div>
           {(!!user) ? (
             <div>
-              <span className='header__cart'>
+              <span className='header__cart' onClick={() => setIsCartOpen(true)}>
                 <BsCart3 size={20}/>
               </span>
               <span className='header__cart'>
@@ -65,7 +65,7 @@ export default function Header() {
             </span>
             {(!!user) ? (
               <div>
-                <span className='header__cart'>
+                <span className='header__cart' onClick={() => setIsCartOpen(true)}>
                   <BsCart3 size={20}/>
                 </span>
                 <span onClick={() => router.push('/profile')} className='header__cart'>
