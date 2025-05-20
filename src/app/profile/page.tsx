@@ -4,6 +4,7 @@ import Image from 'next/image'
 import profile from '@/assets/profile.jpg'
 import { useProductContext } from '@/contexts/ProductContext'
 import ProtectedRoute from '../components/ProtectedRouter'
+import Address from '../components/Address'
 
 import './style.scss'
 
@@ -17,6 +18,9 @@ export default function Profile() {
           <Image src={profile} alt='ícone profile'/>
           <h2>{user?.email}</h2>
           <button className='logout' onClick={logout}>Sair</button>
+        </div>
+        <div>
+          <Address />
         </div>
       </div>
     </ProtectedRoute>

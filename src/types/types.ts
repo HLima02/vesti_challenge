@@ -68,10 +68,22 @@ export interface ProductContextType {
   cart: Product[],
   setCart: React.Dispatch<React.SetStateAction<any>>,
   isCartOpen: boolean,
-  setIsCartOpen:  React.Dispatch<React.SetStateAction<any>>
+  setIsCartOpen:  React.Dispatch<React.SetStateAction<any>>,
+  address: AddressType[],
+  setAddress:  React.Dispatch<React.SetStateAction<any>>,
 }
 
 export interface BannerItem {
   id: number
   url: string | StaticImageData
+}
+
+export type AddressType = {
+  bairro: string
+  cep: string
+  estado:string
+  localidade: string
+  logradouro: string
+  uf: string
+  erro?: boolean
 }

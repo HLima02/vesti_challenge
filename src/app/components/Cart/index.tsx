@@ -1,5 +1,6 @@
 'use client'
 import React from 'react'
+import Link from 'next/link'
 import { useProductContext } from '@/contexts/ProductContext'
 import CartItem from '../CartITem'
 import { IoMdClose } from "react-icons/io";
@@ -26,6 +27,9 @@ export default function Cart() {
               <CartItem key={item.code} item={item} />
             ))}
           </ul>
+          <div className='finalize_order'>
+            <Link href="/finalize_order">Finalizar pedido</Link>
+          </div>
         </div>
       )}
     </div>

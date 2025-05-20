@@ -1,7 +1,7 @@
 'use client'
 import React, {createContext, useContext, useEffect, useState} from 'react'
 import { catalogFetch } from '@/services/api'
-import { Product, ProductContextType, USerProsps, CartProps } from '@/types/types'
+import { Product, ProductContextType, USerProsps, CartProps, AddressType } from '@/types/types'
 import { auth, db } from '@/services/firebase'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { doc, getDoc, setDoc} from 'firebase/firestore'
@@ -22,7 +22,9 @@ const ProductContext = createContext<ProductContextType>({
   cart: [],
   setCart: () => {},
   isCartOpen: false,
-  setIsCartOpen: () => {}
+  setIsCartOpen: () => {},
+  address: [],
+  setAddress: () => {}
 })
 
 export default function ProductProvider({children}:{children:React.ReactNode}) {
@@ -33,15 +35,18 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
   const [auxProductList, setProductList] = useState<Product[]>([])
   const [cart, setCart] = useState<CartProps[]>([])
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false)
+  const [address, setAddress] = useState<AddressType[]>([])
 
   const router = useRouter()
 
   useEffect(() => {
     const storageUser = localStorage.getItem('@vestiUser')
     const storageCart = localStorage.getItem('@vestiCart')
+    const storageAddress = localStorage.getItem('@storage_address')
 
     if(storageUser) setUser(JSON.parse(storageUser))
     if(storageCart) setCart(JSON.parse(storageCart))
+    if(storageAddress) setAddress(JSON.parse(storageAddress))
     
     //Carrega a API de produtos
     const loadApi = async () => {
@@ -73,6 +78,10 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
   useEffect(() => {
     localStorage.setItem('@vestiCart', JSON.stringify(cart))
   }, [cart])
+
+  useEffect(() => {
+    localStorage.setItem('@storage_address', JSON.stringify(address))
+  }, [address])
 
   //Login
   async function signIn(email:string, password:string){
@@ -144,7 +153,9 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
     cart,
     setCart,
     isCartOpen,
-    setIsCartOpen
+    setIsCartOpen,
+    address,
+    setAddress
     }}>
       {children}
     </ProductContext.Provider>
