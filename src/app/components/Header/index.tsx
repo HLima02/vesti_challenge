@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import Link from 'next/link';
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname  } from 'next/navigation'
 import Image from 'next/image';
 import './style.scss'
 import { useProductContext } from '@/contexts/ProductContext'
@@ -17,6 +17,9 @@ export default function Header() {
   const { user, products, filteredList, setFilteredList, setIsCartOpen } = useProductContext()
   const [isInputSearchOpen, setIsInputSearchOpen] = useState<boolean>(false)
   const router = useRouter()
+  const pathname = usePathname();
+
+  const isHomePage = pathname === '/'
 
   return (
     <header className='width_container'>
@@ -29,10 +32,13 @@ export default function Header() {
         </div>
 
         <div className='header_right'>
-          <div className='header__input_area'>
-            <input value={filteredList} onChange={(e) => setFilteredList(e.target.value)} type='text' placeholder='Buscar produtos' />
-            <IoSearch size={20}/>
-          </div>
+          {isHomePage && 
+            <div className='header__input_area'>
+              <input value={filteredList} onChange={(e) => setFilteredList(e.target.value)} type='text' placeholder='Buscar produtos' />
+              <IoSearch size={20}/>
+            </div>
+          }
+          
           {(!!user) ? (
             <div style={{width: 100}}>
               <span className='header__cart' onClick={() => setIsCartOpen(true)}>
@@ -60,9 +66,12 @@ export default function Header() {
             </Link>
           </div>
           <div className='header_right'>
-            <span className='header__search' onClick={() => setIsInputSearchOpen(!isInputSearchOpen)} >
-              <IoSearch size={20}/>
-            </span>
+            {isHomePage &&
+              <span className='header__search' onClick={() => setIsInputSearchOpen(!isInputSearchOpen)} >
+                <IoSearch size={20}/>
+              </span>
+            }
+            
             {(!!user) ? (
               <div>
                 <span className='header__cart' onClick={() => setIsCartOpen(true)}>
