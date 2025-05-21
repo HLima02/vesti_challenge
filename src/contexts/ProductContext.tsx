@@ -1,51 +1,43 @@
 'use client'
-import React, {createContext, useContext, useEffect, useState} from 'react'
-import { ProductFetch } from '@/services/api'
-import { Product, ProductContextType, USerProsps, CartProps, AddressType } from '@/types/types'
-import { auth, db } from '@/services/firebase'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth'
-import { doc, getDoc, setDoc} from 'firebase/firestore'
-import { toast } from 'react-toastify'
+
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from 'react'
 import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import { doc, getDoc, setDoc } from 'firebase/firestore'
+
+import { ProductFetch } from '@/services/api'
+import { auth, db } from '@/services/firebase'
 import { filterbrands } from '@/services/filters'
 
+import {
+  Product,
+  ProductContextType,
+  UserProps,
+  CartProps,
+  AddressType,
+} from '@/types/types'
 
-const ProductContext = createContext<ProductContextType>({
-  products: [],
-  productFetched: null,
-  setProductFetched: () => {},
-  filteredList: undefined,
-  setFilteredList: null,
-  user: null,
-  setUser: null,
-  signUp: null,
-  signIn: null,
-  logout: null,
-  cart: [],
-  setCart: () => {},
-  isCartOpen: false,
-  setIsCartOpen: () => {},
-  address: [],
-  setAddress: () => {},
-  sideFilter: [],
-  setSideFilter: () => {},
-  typeFilter: undefined,
-  setTypeFilter: () => {}
-})
+const ProductContext = createContext<ProductContextType>({} as ProductContextType)
 
-type SideFilter = {
-  type: string,
-  data: string[]
+type ProductProviderProps = {
+  children: ReactNode
 }
 
-export default function ProductProvider({children}:{children:React.ReactNode}) {
-  const [user, setUser] = useState<USerProsps | null >(null)
+export default function ProductProvider({ children }: ProductProviderProps) {
+  const [user, setUser] = useState<UserProps | null>(null)
   const [products, setProducts] = useState<Product[]>([])
-  const [productFetched, setProductFetched] = useState()
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([])
+  const [productFetched, setProductFetched] = useState<Product | null>(null)
   const [filteredList, setFilteredList] = useState<string>()
-  const [auxProductList, setProductList] = useState<Product[]>([])
   const [cart, setCart] = useState<CartProps[]>([])
-  const [isCartOpen, setIsCartOpen] = useState<boolean>(false)
+  const [isCartOpen, setIsCartOpen] = useState(false)
   const [address, setAddress] = useState<AddressType[]>([])
   const [sideFilter, setSideFilter] = useState<string[]>([])
   const [typeFilter, setTypeFilter] = useState<string | undefined>()
@@ -53,150 +45,153 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
   const router = useRouter()
 
   useEffect(() => {
-    const storageUser = localStorage.getItem('@vestiUser')
-    const storageCart = localStorage.getItem('@vestiCart')
-    const storageAddress = localStorage.getItem('@storage_address')
+    const storedUser = localStorage.getItem('@vestiUser')
+    const storedCart = localStorage.getItem('@vestiCart')
+    const storedAddress = localStorage.getItem('@storage_address')
 
-    if(storageUser) setUser(JSON.parse(storageUser))
-    if(storageCart) setCart(JSON.parse(storageCart))
-    if(storageAddress) setAddress(JSON.parse(storageAddress))
-    
-    //Carrega a API de produtos
-    const loadApi = async () => {
+    if (storedUser) setUser(JSON.parse(storedUser))
+    if (storedCart) setCart(JSON.parse(storedCart))
+    if (storedAddress) setAddress(JSON.parse(storedAddress))
+
+    async function loadProducts() {
       try {
-        const catalog = await ProductFetch('https://apivesti.vesti.mobi/appmarca/v2/catalogue/company/vesti/?page=1&perpage=60&with_colors=true')
-      
+        const catalog = await ProductFetch(
+          'https://apivesti.vesti.mobi/appmarca/v2/catalogue/company/vesti/?page=1&perpage=60&with_colors=true'
+        )
         setProducts(catalog.products)
-        setProductList(catalog.products)
-        
-      } catch (error){
-        console.log('Error: ', error)
+        setFilteredProducts(catalog.products)
+      } catch (err) {
+        console.error('Erro ao carregar catálogo:', err)
       }
     }
 
-    loadApi()
+    loadProducts()
   }, [])
-  
-  //UseEffect acionado quando feito o debounce do produtos
+
+  //debounce de produto do input
   useEffect(() => {
-    if(!filteredList){
-      setProductList(products)
+    if (!filteredList) {
+      setFilteredProducts(products)
       return
     }
 
-    const lowerProduct = filteredList?.toLowerCase().replace(" ", "-")
-    const filtered = products.filter((prod) => prod.slug?.includes(lowerProduct))
-    setProductList(filtered)
-
+    const keyword = filteredList.toLowerCase().replace(/\s+/g, '-')
+    const filtered = products.filter(product =>
+      product.slug?.includes(keyword)
+    )
+    setFilteredProducts(filtered)
   }, [filteredList, products])
 
-  //Ciclo execucado quando a lista for filtrada atraves dos checkbox de marca
+  // Filtro atraves dos checkbox (marca e categorias)
   useEffect(() => {
-    async function loadSideFilter(){
-      if(!sideFilter){
-        setProductList(products)
-        return
-      }
-
-      const auxSideFilter = await filterbrands(typeFilter, sideFilter)
-      console.log('Context: ', auxSideFilter)
-      if(auxSideFilter != undefined){
-          setProductList(auxSideFilter)
-      }
-      //setProductList(auxSideFilter)
+    if (!sideFilter.length) {
+      setFilteredProducts(products)
+      return
     }
-    
-    loadSideFilter()
-  }, [sideFilter, products])
 
+    async function applySideFilter() {
+      const result = await filterbrands(typeFilter, sideFilter)
+      if (result) setFilteredProducts(result)
+    }
 
+    applySideFilter()
+  }, [sideFilter, products, typeFilter])
 
+  // Persistencia do carrinho
   useEffect(() => {
     localStorage.setItem('@vestiCart', JSON.stringify(cart))
   }, [cart])
 
+  //Persistencia do endereço
   useEffect(() => {
     localStorage.setItem('@storage_address', JSON.stringify(address))
   }, [address])
 
-  //Login
-  async function signIn(email:string, password:string){
-    await signInWithEmailAndPassword(auth, email, password)
-    .then(async (value) => {
-      let uid = value.user.uid
-      const docRef = doc(db, "users", uid)
+  // Autenticação via email e senha
+  async function signIn(email: string, password: string) {
+    try {
+      const result = await signInWithEmailAndPassword(auth, email, password)
+      const uid = result.user.uid
+      const docRef = doc(db, 'users', uid)
       const docSnap = await getDoc(docRef)
 
-      let data = {
+      const userData: UserProps = {
         uid,
-        name: docSnap.data()?.name,
-        email: value.user.email,
+        name: docSnap.data()?.name ?? '',
+        email: result.user.email ?? '',
       }
-      setUser(data)
-      storageUser(data)
-      toast.success("Bem-vindo(a) de volta!")
+
+      setUser(userData)
+      saveUserToStorage(userData)
+      toast.success('Bem-vindo(a) de volta!')
       router.push('/')
-    })
+    } catch (err) {
+      console.error('Erro ao fazer login:', err)
+    }
   }
 
-  //Cadastro
-  async function signUp(name: string, email:string, password:string){
-    await createUserWithEmailAndPassword(auth, email, password)
-    .then(async (value) => {
-      let uid = value.user.uid
+  //cadastro de usuarios
+  async function signUp(name: string, email: string, password: string) {
+    try {
+      const result = await createUserWithEmailAndPassword(auth, email, password)
+      const uid = result.user.uid
 
-      await  setDoc(doc(db, "users", uid), {
-        name
-      })
-      .then(() => {
-        let data = {
-          uid,
-          name,
-          email: value.user.email,
-        }
-        setUser(data)
-        storageUser(data)
-        router.push('/')
-        toast.success("Bem vindo ao sistema")
-      })
-    })
+      await setDoc(doc(db, 'users', uid), { name })
+
+      const userData: UserProps = {
+        uid,
+        name,
+        email: result.user.email ?? '',
+      }
+
+      setUser(userData)
+      saveUserToStorage(userData)
+      toast.success('Bem vindo ao sistema!')
+      router.push('/')
+    } catch (err) {
+      console.error('Erro ao cadastrar usuário:', err)
+    }
   }
-
-  //LogOut
-  async function logout(){
+  //Logout de usuarios e remoção dos arrays no localstorage
+  async function logout() {
     await signOut(auth)
     localStorage.removeItem('@vestiUser')
+    localStorage.removeItem('@vestiCart')
+     localStorage.removeItem('@storage_address')
     setUser(null)
     router.push('/')
   }
 
-  function storageUser(data:USerProsps){
-    localStorage.setItem('@vestiUser', JSON.stringify(data))
+  //Persistencia do usuario no local storage
+  function saveUserToStorage(user: UserProps) {
+    localStorage.setItem('@vestiUser', JSON.stringify(user))
   }
 
   return (
-    <ProductContext.Provider value={{
-    products: auxProductList, 
-    productFetched, 
-    setProductFetched,
-    filteredList,
-    setFilteredList,
-    user,
-    setUser,
-    signUp,
-    signIn,
-    logout,
-    cart,
-    setCart,
-    isCartOpen,
-    setIsCartOpen,
-    address,
-    setAddress,
-    sideFilter,
-    setSideFilter,
-    typeFilter,
-    setTypeFilter
-    }}>
+    <ProductContext.Provider
+      value={{
+        products: filteredProducts,
+        productFetched,
+        setProductFetched,
+        filteredList,
+        setFilteredList,
+        user,
+        setUser,
+        signUp,
+        signIn,
+        logout,
+        cart,
+        setCart,
+        isCartOpen,
+        setIsCartOpen,
+        address,
+        setAddress,
+        sideFilter,
+        setSideFilter,
+        typeFilter,
+        setTypeFilter,
+      }}
+    >
       {children}
     </ProductContext.Provider>
   )

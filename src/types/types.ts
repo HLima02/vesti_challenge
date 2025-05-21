@@ -35,7 +35,7 @@ export type Product = {
   colors?: string[] | null;
 };
 
-export type USerProsps = {
+export type UserProps = {
   uid: string
   name: string
   email: string
@@ -60,7 +60,7 @@ export interface ProductContextType {
   setProductFetched: React.Dispatch<React.SetStateAction<any>>
   filteredList: string | undefined
   setFilteredList: any
-  user: USerProsps | null,
+  user: UserProps | null,
   setUser: any,
   signUp:any,
   signIn: any,

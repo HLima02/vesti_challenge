@@ -27,7 +27,7 @@ export default function Cart() {
             ))}
           </ul>
           <div className='finalize_order'>
-            <Link href="/finalize_order">Finalizar pedido</Link>
+            <Link href="/finalize_order" onClick={() => setIsCartOpen(false)}>Finalizar pedido</Link>
           </div>
         </div>
       )}
