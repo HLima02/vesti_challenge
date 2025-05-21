@@ -32,3 +32,16 @@ export const category = async (title:string, url:string) => {
     console.log("Erro:", error)
   }
 }
+
+export const filterbrands = async (list:string[]) => {
+  const listString = list.join(',')
+  try {
+    const sideFilter = await ProductFetch(`https://apivesti.vesti.mobi/appmarca/v2/catalogue/company/vesti/?page=1&perpage=60&filter[brand_slugs]=${listString}%20&with_colors=true`)  
+    //console.log(sideFilter.products)
+    return sideFilter.products
+    
+  } catch (error) {
+    console.log("Erro:", error)
+  }
+  
+}

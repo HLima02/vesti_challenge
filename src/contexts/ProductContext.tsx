@@ -7,6 +7,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } f
 import { doc, getDoc, setDoc} from 'firebase/firestore'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
+import { filterbrands } from '@/services/filters'
 
 
 const ProductContext = createContext<ProductContextType>({
@@ -25,7 +26,9 @@ const ProductContext = createContext<ProductContextType>({
   isCartOpen: false,
   setIsCartOpen: () => {},
   address: [],
-  setAddress: () => {}
+  setAddress: () => {},
+  sideFilter: [],
+  setSideFilter: () => {}
 })
 
 export default function ProductProvider({children}:{children:React.ReactNode}) {
@@ -37,7 +40,7 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
   const [cart, setCart] = useState<CartProps[]>([])
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false)
   const [address, setAddress] = useState<AddressType[]>([])
-  const [brandList, setBrandList] = useState([])
+  const [sideFilter, setSideFilter] = useState<string[]>([])
 
   const router = useRouter()
 
@@ -54,11 +57,9 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
     const loadApi = async () => {
       try {
         const catalog = await ProductFetch('https://apivesti.vesti.mobi/appmarca/v2/catalogue/company/vesti/?page=1&perpage=60&with_colors=true')
-        const brands = await ProductFetch('https://apivesti.vesti.mobi/appmarca/v1/company/vesti/brands')
       
         setProducts(catalog.products)
         setProductList(catalog.products)
-        setBrandList(brands.data)
         
       } catch (error){
         console.log('Error: ', error)
@@ -75,10 +76,28 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
     }
 
     const lowerProduct = filteredList?.toLowerCase().replace(" ", "-")
-    const filtered = products.filter((prod) => prod.slug.includes(lowerProduct))
+    const filtered = products.filter((prod) => prod.slug?.includes(lowerProduct))
     setProductList(filtered)
 
   }, [filteredList, products])
+
+  //Ciclo execucado quando a lista for filtrada atraves dos checkbox
+  useEffect(() => {
+    async function loadSideFilter(){
+      if(!sideFilter){
+        setProductList(products)
+        return
+      }
+
+      const auxSideFilter = await filterbrands(sideFilter)
+      console.log('Context: ', auxSideFilter)
+      setProductList(auxSideFilter)
+    }
+    
+    loadSideFilter()
+  }, [sideFilter, products])
+
+
 
   useEffect(() => {
     localStorage.setItem('@vestiCart', JSON.stringify(cart))
@@ -98,7 +117,7 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
 
       let data = {
         uid,
-        //name: docSnap.data().name,
+        name: docSnap.data()?.name,
         email: value.user.email,
       }
       setUser(data)
@@ -160,7 +179,9 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
     isCartOpen,
     setIsCartOpen,
     address,
-    setAddress
+    setAddress,
+    sideFilter,
+    setSideFilter
     }}>
       {children}
     </ProductContext.Provider>

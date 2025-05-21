@@ -1,15 +1,15 @@
 import { StaticImageData  } from "next/image"
 
 export type Product = {
-  id: string;
+  id?: string;
   name: string;
   code: string;
-  price: number | null;
-  promotion: boolean;
-  price_promotional: number | null;
-  stockout: boolean;
-  slug: string;
-  media: {
+  price?: number | null;
+  promotion?: boolean;
+  price_promotional?: number | null;
+  stockout?: boolean;
+  slug?: string;
+  media?: {
     id: string;
     type: string;
     filename: string;
@@ -32,11 +32,11 @@ export type Product = {
       height: number;
     };
   };
-  colors: string[] | null;
+  colors?: string[] | null;
 };
 
 export type USerProsps = {
-  uid: number
+  uid: string
   name: string
   email: string
 }
@@ -71,6 +71,8 @@ export interface ProductContextType {
   setIsCartOpen:  React.Dispatch<React.SetStateAction<any>>,
   address: AddressType[],
   setAddress:  React.Dispatch<React.SetStateAction<any>>,
+  sideFilter: string[],
+  setSideFilter: React.Dispatch<React.SetStateAction<any>>
 }
 
 export interface BannerItem {
