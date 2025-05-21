@@ -26,6 +26,7 @@
         width: 100%;
         display: flex;
         justify-content: center;
+        gap: 10px;
         margin: 20px auto 40px;
 
         button {
@@ -58,6 +59,18 @@
       display: flex;
       justify-content: space-around;
       flex-wrap: wrap;
+      gap: 15px;
+    }
+  }
+
+  @media only screen and (max-width: 760px) {
+    .catalog_filter_products {
+      flex-direction: column;
+      align-items: center;
+
+      .catalog_filter, .catalog_pagination {
+        width: 100%;
+      }
     }
   }
 }

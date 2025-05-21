@@ -1,3 +1,4 @@
+'use client'
 import React, { useEffect, useState } from 'react'
 import { FaPlus, FaMinus  } from "react-icons/fa";
 import { AccordionItem } from '@/types/types'
@@ -10,8 +11,8 @@ type FilterItemProp = {
 }
 
 export default function FilterItem({state, action, data, type}:FilterItemProp) {
-  const [isOpen, setIsOpen] = useState<boolean>(true)
-
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+  
   return (
     <div className='filter_container'>
       <button onClick={() => setIsOpen(!isOpen)}>{data?.title} {isOpen ? <FaMinus/> : <FaPlus/> }</button>
