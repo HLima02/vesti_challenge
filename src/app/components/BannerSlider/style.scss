@@ -1,7 +1,27 @@
 .banner_container {
   margin-bottom: 30px;
+  max-height: 480px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   img {
     height: auto;
+  }
+
+  .banner_mobile {
+    display: none;
+  }
+
+  @media only screen and (max-width: 680px){
+    .banner_desktop {
+      display: none;
+    }
+
+    .banner_mobile {
+      display: block;
+    }
+
   }
 }

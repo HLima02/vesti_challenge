@@ -12,6 +12,11 @@ type FilterItemProp = {
 
 export default function FilterItem({state, action, data, type}:FilterItemProp) {
   const [isOpen, setIsOpen] = useState<boolean>(false)
+
+  useEffect(() => {
+    const initialWidth = window.innerWidth
+    setIsOpen(initialWidth > 760)
+  }, [])
   
   return (
     <div className='filter_container'>
