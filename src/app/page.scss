@@ -8,8 +8,21 @@
 
 .catalog_container {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: wrap;
-  margin: 40px auto;
+  flex-direction: column;
+  justify-content: center;
+
+  .catalog_filter_products {
+    display: flex;
+
+    .catalog_filter {
+      width: 30%;
+    }
+
+    .catalog_products {
+      width: 70%;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+  }
 }

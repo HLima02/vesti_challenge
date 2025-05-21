@@ -1,12 +1,13 @@
 'use client'
 import React, {createContext, useContext, useEffect, useState} from 'react'
-import { catalogFetch } from '@/services/api'
+import { ProductFetch } from '@/services/api'
 import { Product, ProductContextType, USerProsps, CartProps, AddressType } from '@/types/types'
 import { auth, db } from '@/services/firebase'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { doc, getDoc, setDoc} from 'firebase/firestore'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
+
 
 const ProductContext = createContext<ProductContextType>({
   products: [],
@@ -36,6 +37,7 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
   const [cart, setCart] = useState<CartProps[]>([])
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false)
   const [address, setAddress] = useState<AddressType[]>([])
+  const [brandList, setBrandList] = useState([])
 
   const router = useRouter()
 
@@ -51,9 +53,12 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
     //Carrega a API de produtos
     const loadApi = async () => {
       try {
-        const catalog = await catalogFetch('https://apivesti.vesti.mobi/appmarca/v2/catalogue/company/vesti/?page=1&perpage=60&with_colors=true')
+        const catalog = await ProductFetch('https://apivesti.vesti.mobi/appmarca/v2/catalogue/company/vesti/?page=1&perpage=60&with_colors=true')
+        const brands = await ProductFetch('https://apivesti.vesti.mobi/appmarca/v1/company/vesti/brands')
+      
         setProducts(catalog.products)
         setProductList(catalog.products)
+        setBrandList(brands.data)
         
       } catch (error){
         console.log('Error: ', error)

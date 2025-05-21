@@ -4,6 +4,7 @@ import { useProductContext } from '@/contexts/ProductContext'
 import { Product } from '@/types/types'
 import CatalogItem from './components/CatalogItem'
 import BannerSlider from './components/BannerSlider'
+import FilterSide from './components/FilterSide'
 
 import './page.scss'
 
@@ -20,10 +21,19 @@ export default function Home() {
 
   return (
     <div className='width_container catalog_container'>
-      <BannerSlider />
-      {products.map(item => (
-        <CatalogItem key={item.id} productItem={item} />
-      ))}
+      <div className='catalog_banner_section'>
+         <BannerSlider />
+      </div>
+      <div className='catalog_filter_products'>
+        <div className='catalog_filter'>
+          <FilterSide />
+        </div>
+        <div className='catalog_products'>
+          {products.map(item => (
+            <CatalogItem key={item.id} productItem={item} />
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
