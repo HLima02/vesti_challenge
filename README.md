@@ -9,7 +9,7 @@ Projeto desenvolvido como um desafio técnico para simular uma aplicação de e-
 - **React Context API** (gerenciamento de estado)
 - **Firebase Authentication & Firestore**
 - **React Toastify** (notificações)
-- **Tailwind CSS** (opcional, se estiver usando)
+- **SASS** (Estilização)
 - **API externa** da Vesti para produtos
 
 ## Funcionalidades
