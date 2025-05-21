@@ -28,8 +28,15 @@ const ProductContext = createContext<ProductContextType>({
   address: [],
   setAddress: () => {},
   sideFilter: [],
-  setSideFilter: () => {}
+  setSideFilter: () => {},
+  typeFilter: undefined,
+  setTypeFilter: () => {}
 })
+
+type SideFilter = {
+  type: string,
+  data: string[]
+}
 
 export default function ProductProvider({children}:{children:React.ReactNode}) {
   const [user, setUser] = useState<USerProsps | null >(null)
@@ -41,6 +48,7 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false)
   const [address, setAddress] = useState<AddressType[]>([])
   const [sideFilter, setSideFilter] = useState<string[]>([])
+  const [typeFilter, setTypeFilter] = useState<string | undefined>()
 
   const router = useRouter()
 
@@ -68,7 +76,8 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
 
     loadApi()
   }, [])
-
+  
+  //UseEffect acionado quando feito o debounce do produtos
   useEffect(() => {
     if(!filteredList){
       setProductList(products)
@@ -81,7 +90,7 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
 
   }, [filteredList, products])
 
-  //Ciclo execucado quando a lista for filtrada atraves dos checkbox
+  //Ciclo execucado quando a lista for filtrada atraves dos checkbox de marca
   useEffect(() => {
     async function loadSideFilter(){
       if(!sideFilter){
@@ -89,9 +98,12 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
         return
       }
 
-      const auxSideFilter = await filterbrands(sideFilter)
+      const auxSideFilter = await filterbrands(typeFilter, sideFilter)
       console.log('Context: ', auxSideFilter)
-      setProductList(auxSideFilter)
+      if(auxSideFilter != undefined){
+          setProductList(auxSideFilter)
+      }
+      //setProductList(auxSideFilter)
     }
     
     loadSideFilter()
@@ -181,7 +193,9 @@ export default function ProductProvider({children}:{children:React.ReactNode}) {
     address,
     setAddress,
     sideFilter,
-    setSideFilter
+    setSideFilter,
+    typeFilter,
+    setTypeFilter
     }}>
       {children}
     </ProductContext.Provider>

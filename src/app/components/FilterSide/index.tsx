@@ -13,7 +13,7 @@ export default function FilterSide() {
   const [data, setData] = useState<AccordionItem>()
   const [categoryData, setCategoryData] = useState<AccordionItem>()
   const [slugArray, setSlugArray] = useState<string[]>([])
-  const { setSideFilter } = useProductContext()
+  const { setSideFilter, setTypeFilter } = useProductContext()
 
   useEffect(() => {
     async function loadFilter(){
@@ -35,7 +35,8 @@ export default function FilterSide() {
     setSideFilter(slugArray)
   }, [slugArray])
 
-  function handleChecked(slug:string) {
+  function handleChecked(type:string, slug:string) {
+    setTypeFilter(type)
     setSlugArray((prev) =>
       prev.includes(slug)
         ? prev.filter((item) => item !== slug)
@@ -45,8 +46,8 @@ export default function FilterSide() {
 
   return (
     <div>
-      <FilterItem data={data} state={slugArray} action={handleChecked} />
-      <FilterItem data={categoryData} state={slugArray} action={handleChecked} />
+      <FilterItem data={data} state={slugArray} action={handleChecked} type="brand" />
+      <FilterItem data={categoryData} state={slugArray} action={handleChecked} type="category" />
     </div>
   )
 }

@@ -72,7 +72,9 @@ export interface ProductContextType {
   address: AddressType[],
   setAddress:  React.Dispatch<React.SetStateAction<any>>,
   sideFilter: string[],
-  setSideFilter: React.Dispatch<React.SetStateAction<any>>
+  setSideFilter: React.Dispatch<React.SetStateAction<any>>,
+  typeFilter:string | undefined,
+  setTypeFilter: React.Dispatch<React.SetStateAction<any>>
 }
 
 export interface BannerItem {
