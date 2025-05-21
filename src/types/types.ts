@@ -87,3 +87,8 @@ export type AddressType = {
   uf: string
   erro?: boolean
 }
+
+export interface AccordionItem {
+  title?: string;
+  data: any;
+}

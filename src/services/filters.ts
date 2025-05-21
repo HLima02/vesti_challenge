@@ -1,12 +1,11 @@
 import { ProductFetch } from './api'
 
-export const brands = async () => {
+export const filters = async (title:string, url:string) => {
   try {
-    const brandList = await ProductFetch('https://apivesti.vesti.mobi/appmarca/v1/company/vesti/brands')
-    
+    const brandList = await ProductFetch(url)
     const brands = {
-      title: 'Marcas',
-      data: brandList.data || [] // fallback para array vazio se não houver dados
+      title,
+      data: brandList.data || []
     }
 
     return brands
@@ -16,5 +15,20 @@ export const brands = async () => {
       title: 'Marcas',
       data: []
     }
+  }
+}
+
+export const category = async (title:string, url:string) => {
+  try {
+    const categoryList = await ProductFetch(url)  
+    const category = {
+      title,
+      data: categoryList || []
+    }
+
+    return category
+
+  } catch (error) {
+    console.log("Erro:", error)
   }
 }
